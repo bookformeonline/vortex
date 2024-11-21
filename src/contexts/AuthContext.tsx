@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { AuthContextType, User } from "@/types/auth";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -9,14 +9,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  // Demo kullanıcı için otomatik giriş
+  useEffect(() => {
+    const demoUser = {
+      id: "demo123",
+      email: "demo@example.com",
+      name: "Demo Kullanıcı",
+    };
+    setUser(demoUser);
+    toast({ 
+      title: "Demo hesabına giriş yapıldı",
+      description: "Hoş geldiniz, Demo Kullanıcı!" 
+    });
+  }, []);
+
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // Mock login for now
       setUser({ id: "1", email, name: "John Doe" });
-      toast({ title: "Welcome back!" });
+      toast({ title: "Tekrar hoş geldiniz!" });
     } catch (error) {
-      toast({ title: "Error logging in", variant: "destructive" });
+      toast({ title: "Giriş yapılırken hata oluştu", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -25,11 +38,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = async (email: string, password: string, name: string) => {
     setLoading(true);
     try {
-      // Mock registration for now
       setUser({ id: "1", email, name });
-      toast({ title: "Welcome to TravelPlanner!" });
+      toast({ title: "TravelPlanner'a hoş geldiniz!" });
     } catch (error) {
-      toast({ title: "Error registering", variant: "destructive" });
+      toast({ title: "Kayıt olurken hata oluştu", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -37,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     setUser(null);
-    toast({ title: "Logged out successfully" });
+    toast({ title: "Başarıyla çıkış yapıldı" });
   };
 
   return (
