@@ -1,52 +1,75 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MapPin, Calendar, PlaneLanding } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Plane, Map, Calendar, Package } from "lucide-react";
 
 const Index = () => {
+  const { user } = useAuth();
+
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid gap-16 md:grid-cols-2">
-          <div className="flex flex-col justify-center space-y-6">
-            <h1 className="animate-fade-up text-4xl font-bold leading-tight md:text-6xl">
-              Plan Your Next Adventure
-              <span className="text-primary"> Effortlessly</span>
-            </h1>
-            <p className="animate-fade-up text-lg text-gray-600 [animation-delay:200ms]">
-              Create beautiful travel itineraries, collaborate with friends, and discover amazing destinations.
-            </p>
-            <div className="animate-fade-up space-x-4 [animation-delay:400ms]">
-              <Link to="/register">
-                <Button size="lg" className="bg-primary">
-                  Get Started
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button variant="outline" size="lg">
-                  Sign In
-                </Button>
-              </Link>
-            </div>
+    <div className="container mx-auto px-4 py-12">
+      {/* Hero Section */}
+      <div className="text-center mb-16 animate-fade-up">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
+          Seyahat Planlamanın En Kolay Yolu
+        </h1>
+        <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          Tüm seyahat planlarınızı tek bir yerde organize edin. Uçuşlar, oteller, aktiviteler ve daha fazlası.
+        </p>
+        <Link to={user ? "/planner" : "/register"}>
+          <Button size="lg" className="animate-fade-in">
+            {user ? "Seyahat Planla" : "Hemen Başla"}
+            <Map className="ml-2 h-5 w-5" />
+          </Button>
+        </Link>
+      </div>
+
+      {/* Features Grid */}
+      <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow animate-fade-up [animation-delay:200ms]">
+          <div className="bg-primary-soft p-3 rounded-full w-fit mb-4">
+            <Plane className="h-6 w-6 text-primary" />
           </div>
-          <div className="hidden animate-fade-in md:block">
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: MapPin, text: "Find perfect destinations" },
-                { icon: Calendar, text: "Plan your itinerary" },
-                { icon: PlaneLanding, text: "Book flights & hotels" },
-              ].map((feature, i) => (
-                <div
-                  key={i}
-                  className="card-hover col-span-1 rounded-xl bg-white p-6 shadow-sm"
-                  style={{ animationDelay: `${i * 200}ms` }}
-                >
-                  <feature.icon className="h-8 w-8 text-primary" />
-                  <h3 className="mt-4 font-semibold">{feature.text}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
+          <h3 className="text-xl font-semibold mb-2">Kolay Planlama</h3>
+          <p className="text-gray-600">
+            Uçuş, otel ve aktivite rezervasyonlarınızı kolayca planlayın ve organize edin.
+          </p>
         </div>
+
+        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow animate-fade-up [animation-delay:400ms]">
+          <div className="bg-secondary p-3 rounded-full w-fit mb-4">
+            <Calendar className="h-6 w-6 text-primary" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Akıllı Takvim</h3>
+          <p className="text-gray-600">
+            Tüm seyahat planlarınızı takvimde görüntüleyin ve senkronize edin.
+          </p>
+        </div>
+
+        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow animate-fade-up [animation-delay:600ms]">
+          <div className="bg-secondary-soft p-3 rounded-full w-fit mb-4">
+            <Package className="h-6 w-6 text-primary" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Bavul Listesi</h3>
+          <p className="text-gray-600">
+            Yanınıza almanız gereken eşyaları akıllı liste ile unutmayın.
+          </p>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="text-center bg-gradient-to-r from-primary-soft to-secondary p-8 rounded-2xl animate-fade-up [animation-delay:800ms]">
+        <h2 className="text-2xl md:text-4xl font-bold mb-4">
+          Hayalinizdeki Seyahati Planlamaya Hazır mısınız?
+        </h2>
+        <p className="text-lg mb-6 max-w-2xl mx-auto">
+          Ücretsiz hesap oluşturun ve hemen planlamaya başlayın.
+        </p>
+        <Link to={user ? "/planner" : "/register"}>
+          <Button variant="default" size="lg">
+            {user ? "Seyahati Planla" : "Ücretsiz Başla"}
+          </Button>
+        </Link>
       </div>
     </div>
   );
