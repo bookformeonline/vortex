@@ -20,6 +20,14 @@ interface BudgetManagerProps {
   onBudgetChange: (budget: number) => void;
 }
 
+const CATEGORY_NAMES: { [key: string]: string } = {
+  transportation: "Ulaşım",
+  accommodation: "Konaklama",
+  activities: "Aktiviteler",
+  food: "Yemek",
+  other: "Diğer"
+};
+
 const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
   const { toast } = useToast();
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -38,10 +46,29 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
       return;
     }
 
+    const amount = parseFloat(newExpense.amount);
+    if (isNaN(amount) || amount <= 0) {
+      toast({
+        title: "Hata",
+        description: "Lütfen geçerli bir tutar giriniz.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (amount > remainingBudget) {
+      toast({
+        title: "Uyarı",
+        description: "Bu harcama bütçenizi aşıyor!",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const expense: Expense = {
       id: Date.now(),
       description: newExpense.description,
-      amount: Number(newExpense.amount),
+      amount: amount,
       category: newExpense.category
     };
 
@@ -69,8 +96,8 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
         
         <div className="mb-6">
           <div className="flex justify-between text-sm mb-2">
-            <span>Kalan Bütçe: {remainingBudget}₺</span>
-            <span>Toplam Bütçe: {totalBudget}₺</span>
+            <span>Kalan Bütçe: {remainingBudget.toLocaleString('tr-TR')}₺</span>
+            <span>Toplam Bütçe: {totalBudget.toLocaleString('tr-TR')}₺</span>
           </div>
           <Progress value={budgetProgress} className="h-2" />
         </div>
@@ -123,8 +150,8 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
                 {expenses.map((expense) => (
                   <TableRow key={expense.id}>
                     <TableCell>{expense.description}</TableCell>
-                    <TableCell>{expense.category}</TableCell>
-                    <TableCell>{expense.amount}₺</TableCell>
+                    <TableCell>{CATEGORY_NAMES[expense.category]}</TableCell>
+                    <TableCell>{expense.amount.toLocaleString('tr-TR')}₺</TableCell>
                     <TableCell>
                       <Button
                         variant="ghost"
@@ -136,6 +163,13 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
                     </TableCell>
                   </TableRow>
                 ))}
+                {expenses.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4} className="text-center text-gray-500">
+                      Henüz harcama eklenmemiş
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </div>

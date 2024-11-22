@@ -9,17 +9,36 @@ interface BudgetChartProps {
 
 const COLORS = ['#8B5CF6', '#D946EF', '#F97316', '#0EA5E9', '#E5DEFF'];
 
+const CATEGORY_NAMES: { [key: string]: string } = {
+  transportation: "Ulaşım",
+  accommodation: "Konaklama",
+  activities: "Aktiviteler",
+  food: "Yemek",
+  other: "Diğer"
+};
+
 const BudgetChart = ({ expenses }: BudgetChartProps) => {
   // Kategorilere göre harcamaları grupla
   const categoryTotals = expenses.reduce((acc, curr) => {
-    const existing = acc.find(item => item.category === curr.category);
+    const existing = acc.find(item => item.name === CATEGORY_NAMES[curr.category]);
     if (existing) {
       existing.value += curr.amount;
     } else {
-      acc.push({ category: curr.category, value: curr.amount });
+      acc.push({ 
+        name: CATEGORY_NAMES[curr.category] || curr.category, 
+        value: curr.amount 
+      });
     }
     return acc;
-  }, [] as Array<{ category: string; value: number }>);
+  }, [] as Array<{ name: string; value: number }>);
+
+  if (categoryTotals.length === 0) {
+    return (
+      <div className="h-[300px] w-full flex items-center justify-center text-gray-500">
+        Henüz harcama eklenmemiş
+      </div>
+    );
+  }
 
   return (
     <div className="h-[300px] w-full">
@@ -33,9 +52,9 @@ const BudgetChart = ({ expenses }: BudgetChartProps) => {
             outerRadius={100}
             fill="#8884d8"
             dataKey="value"
-            nameKey="category"
+            nameKey="name"
             label={({ name, percent }) => 
-              `${name}: ${(percent * 100).toFixed(0)}%`
+              `${name}: %${(percent * 100).toFixed(0)}`
             }
           >
             {categoryTotals.map((entry, index) => (
