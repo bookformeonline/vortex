@@ -42,8 +42,6 @@ const Planner = () => {
   };
 
   const handleAddToBudget = (description: string, amount: number, category: string) => {
-    // BudgetManager'a yeni harcama eklemek için bir referans oluşturulacak
-    // Şimdilik toast ile bilgilendirme yapıyoruz
     toast({
       title: "Bütçeye eklendi",
       description: `${description} (${amount}₺) bütçeye eklendi.`
@@ -76,17 +74,6 @@ const Planner = () => {
               selected={selectedDate}
               onSelect={setSelectedDate}
               className="rounded-md border"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Toplam Bütçe</label>
-            <Input
-              type="number"
-              placeholder="Toplam bütçe giriniz..."
-              value={totalBudget || ""}
-              onChange={(e) => setTotalBudget(Number(e.target.value))}
-              className="mb-6"
             />
           </div>
 

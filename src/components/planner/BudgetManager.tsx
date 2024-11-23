@@ -95,6 +95,14 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
         <h2 className="text-2xl font-semibold mb-4">Bütçe Takibi</h2>
         
         <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">Toplam Bütçe</label>
+          <Input
+            type="number"
+            placeholder="Toplam bütçe giriniz..."
+            value={totalBudget || ""}
+            onChange={(e) => onBudgetChange(Number(e.target.value))}
+            className="mb-4"
+          />
           <div className="flex justify-between text-sm mb-2">
             <span>Kalan Bütçe: {remainingBudget.toLocaleString('tr-TR')}₺</span>
             <span>Toplam Bütçe: {totalBudget.toLocaleString('tr-TR')}₺</span>
