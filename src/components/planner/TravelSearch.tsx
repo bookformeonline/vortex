@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,15 +28,16 @@ interface TravelSearchProps {
 const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
   const { toast } = useToast();
   const [searchType, setSearchType] = useState("flight");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [departurePoint, setDeparturePoint] = useState("");
+  const [arrivalPoint, setArrivalPoint] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
-    if (!searchQuery) {
+    if (!departurePoint || !arrivalPoint) {
       toast({
         title: "Hata",
-        description: "Lütfen arama terimi giriniz.",
+        description: "Lütfen başlangıç ve varış noktalarını giriniz.",
         variant: "destructive"
       });
       return;
@@ -51,14 +51,14 @@ const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
         {
           id: "1",
           type: searchType,
-          title: `${searchType === "flight" ? "İstanbul - " + searchQuery : searchQuery} örnek sonuç 1`,
+          title: `${departurePoint} - ${arrivalPoint} örnek sonuç 1`,
           price: Math.floor(Math.random() * 1000) + 500,
           url: "https://example.com/1"
         },
         {
           id: "2",
           type: searchType,
-          title: `${searchType === "flight" ? "İstanbul - " + searchQuery : searchQuery} örnek sonuç 2`,
+          title: `${departurePoint} - ${arrivalPoint} örnek sonuç 2`,
           price: Math.floor(Math.random() * 1000) + 500,
           url: "https://example.com/2"
         }
@@ -106,9 +106,14 @@ const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
         
         <div className="flex-1 flex gap-2">
           <Input
-            placeholder={`${searchType === "flight" ? "Varış noktası" : "Arama terimi"} giriniz...`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Başlangıç noktası"
+            value={departurePoint}
+            onChange={(e) => setDeparturePoint(e.target.value)}
+          />
+          <Input
+            placeholder="Varış noktası"
+            value={arrivalPoint}
+            onChange={(e) => setArrivalPoint(e.target.value)}
           />
           <Button onClick={handleSearch} disabled={loading}>
             <Search className="mr-2 h-4 w-4" />
