@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import BudgetManager from "@/components/planner/BudgetManager";
+import TravelSearch from "@/components/planner/TravelSearch";
 
 const Planner = () => {
   const { toast } = useToast();
@@ -37,6 +38,15 @@ const Planner = () => {
     toast({
       title: "Plan kaydedildi!",
       description: "Seyahat planınız Google Drive'a kaydedildi.",
+    });
+  };
+
+  const handleAddToBudget = (description: string, amount: number, category: string) => {
+    // BudgetManager'a yeni harcama eklemek için bir referans oluşturulacak
+    // Şimdilik toast ile bilgilendirme yapıyoruz
+    toast({
+      title: "Bütçeye eklendi",
+      description: `${description} (${amount}₺) bütçeye eklendi.`
     });
   };
 
@@ -125,7 +135,14 @@ const Planner = () => {
         </div>
       </div>
 
-      <BudgetManager totalBudget={totalBudget} onBudgetChange={setTotalBudget} />
+      <div className="mt-8 space-y-8">
+        <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <h2 className="text-2xl font-semibold mb-4">Seyahat Araması</h2>
+          <TravelSearch onAddToBudget={handleAddToBudget} />
+        </div>
+
+        <BudgetManager totalBudget={totalBudget} onBudgetChange={setTotalBudget} />
+      </div>
 
       <div className="mt-8">
         <Button 
