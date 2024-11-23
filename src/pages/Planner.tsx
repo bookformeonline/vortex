@@ -25,7 +25,15 @@ const Planner = () => {
   const [packingList, setPackingList] = useState("");
 
   const handleSaveToGoogleDrive = async () => {
-    // Google Drive entegrasyonu burada yapılacak
+    if (!destination || !selectedDate) {
+      toast({
+        title: "Hata",
+        description: "Lütfen destinasyon ve tarih seçiniz.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     toast({
       title: "Plan kaydedildi!",
       description: "Seyahat planınız Google Drive'a kaydedildi.",
@@ -58,6 +66,17 @@ const Planner = () => {
               selected={selectedDate}
               onSelect={setSelectedDate}
               className="rounded-md border"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Toplam Bütçe</label>
+            <Input
+              type="number"
+              placeholder="Toplam bütçe giriniz..."
+              value={totalBudget || ""}
+              onChange={(e) => setTotalBudget(Number(e.target.value))}
+              className="mb-6"
             />
           </div>
 
