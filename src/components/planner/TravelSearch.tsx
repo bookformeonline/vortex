@@ -30,24 +30,51 @@ const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
   const [searchType, setSearchType] = useState("flight");
   const [departurePoint, setDeparturePoint] = useState("");
   const [arrivalPoint, setArrivalPoint] = useState("");
+  const [activityLocation, setActivityLocation] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
-    if (!departurePoint || !arrivalPoint) {
-      toast({
-        title: "Hata",
-        description: "Lütfen başlangıç ve varış noktalarını giriniz.",
-        variant: "destructive"
-      });
-      return;
+    if (searchType === "activity") {
+      if (!activityLocation) {
+        toast({
+          title: "Hata",
+          description: "Lütfen lokasyon giriniz.",
+          variant: "destructive"
+        });
+        return;
+      }
+    } else {
+      if (!departurePoint || !arrivalPoint) {
+        toast({
+          title: "Hata",
+          description: "Lütfen başlangıç ve varış noktalarını giriniz.",
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
     setLoading(true);
     try {
       // Not: Gerçek API entegrasyonu için TravelPayouts API anahtarı gerekli
       // Şu an için örnek veri döndürüyoruz
-      const mockResults: SearchResult[] = [
+      const mockResults: SearchResult[] = searchType === "activity" ? [
+        {
+          id: "1",
+          type: searchType,
+          title: `${activityLocation} - Şehir Turu`,
+          price: Math.floor(Math.random() * 500) + 200,
+          url: "https://example.com/1"
+        },
+        {
+          id: "2",
+          type: searchType,
+          title: `${activityLocation} - Müze Gezisi`,
+          price: Math.floor(Math.random() * 300) + 100,
+          url: "https://example.com/2"
+        }
+      ] : [
         {
           id: "1",
           type: searchType,
@@ -105,16 +132,27 @@ const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
         </Select>
         
         <div className="flex-1 flex gap-2">
-          <Input
-            placeholder="Başlangıç noktası"
-            value={departurePoint}
-            onChange={(e) => setDeparturePoint(e.target.value)}
-          />
-          <Input
-            placeholder="Varış noktası"
-            value={arrivalPoint}
-            onChange={(e) => setArrivalPoint(e.target.value)}
-          />
+          {searchType === "activity" ? (
+            <Input
+              placeholder="Lokasyon giriniz"
+              value={activityLocation}
+              onChange={(e) => setActivityLocation(e.target.value)}
+              className="flex-1"
+            />
+          ) : (
+            <>
+              <Input
+                placeholder="Başlangıç noktası"
+                value={departurePoint}
+                onChange={(e) => setDeparturePoint(e.target.value)}
+              />
+              <Input
+                placeholder="Varış noktası"
+                value={arrivalPoint}
+                onChange={(e) => setArrivalPoint(e.target.value)}
+              />
+            </>
+          )}
           <Button onClick={handleSearch} disabled={loading}>
             <Search className="mr-2 h-4 w-4" />
             Ara
