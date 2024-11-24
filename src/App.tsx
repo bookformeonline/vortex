@@ -7,7 +7,10 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
 import Index from "./pages/Index";
 import Account from "./pages/Account";
-import Planner from "./pages/Planner";
+import Budget from "./pages/Budget";
+import Activities from "./pages/Activities";
+import Tickets from "./pages/Tickets";
+import Essentials from "./pages/Essentials";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +25,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/planner" element={<Planner />} />
+            <Route path="/budget" element={<Budget />} />
+            <Route path="/activities" element={<Activities />} />
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/essentials" element={<Essentials />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
