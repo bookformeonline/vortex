@@ -1,6 +1,5 @@
 import TravelSearch from "@/components/planner/TravelSearch";
 import ExpenseInput from "@/components/planner/ExpenseInput";
-import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function Tickets() {
