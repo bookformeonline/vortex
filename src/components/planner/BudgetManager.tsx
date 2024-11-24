@@ -13,6 +13,7 @@ interface Expense {
   description: string;
   amount: number;
   category: string;
+  date: string;
 }
 
 interface BudgetManagerProps {
@@ -31,16 +32,21 @@ const CATEGORY_NAMES: { [key: string]: string } = {
 const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
   const { toast } = useToast();
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [newExpense, setNewExpense] = useState({ description: "", amount: "", category: "transportation" });
+  const [newExpense, setNewExpense] = useState({ 
+    description: "", 
+    amount: "", 
+    category: "transportation",
+    date: new Date().toISOString().split('T')[0]
+  });
 
   const remainingBudget = totalBudget - expenses.reduce((acc, curr) => acc + curr.amount, 0);
   const budgetProgress = totalBudget > 0 ? ((totalBudget - remainingBudget) / totalBudget) * 100 : 0;
 
   const handleAddExpense = () => {
-    if (!newExpense.description || !newExpense.amount) {
+    if (!newExpense.description || !newExpense.amount || !newExpense.date) {
       toast({
         title: "Hata",
-        description: "Lütfen harcama açıklaması ve tutarını giriniz.",
+        description: "Lütfen harcama açıklaması, tutarı ve tarihini giriniz.",
         variant: "destructive"
       });
       return;
@@ -69,11 +75,17 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
       id: Date.now(),
       description: newExpense.description,
       amount: amount,
-      category: newExpense.category
+      category: newExpense.category,
+      date: newExpense.date
     };
 
     setExpenses([...expenses, expense]);
-    setNewExpense({ description: "", amount: "", category: "transportation" });
+    setNewExpense({ 
+      description: "", 
+      amount: "", 
+      category: "transportation",
+      date: new Date().toISOString().split('T')[0]
+    });
     
     toast({
       title: "Harcama eklendi",
@@ -110,7 +122,7 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
           <Progress value={budgetProgress} className="h-2" />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3 mb-4">
+        <div className="grid gap-4 md:grid-cols-4 mb-4">
           <Input
             placeholder="Harcama açıklaması"
             value={newExpense.description}
@@ -121,6 +133,11 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
             placeholder="Tutar"
             value={newExpense.amount}
             onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
+          />
+          <Input
+            type="date"
+            value={newExpense.date}
+            onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
           />
           <Select 
             value={newExpense.category}
@@ -148,6 +165,7 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Tarih</TableHead>
                   <TableHead>Açıklama</TableHead>
                   <TableHead>Kategori</TableHead>
                   <TableHead>Tutar</TableHead>
@@ -157,6 +175,7 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
               <TableBody>
                 {expenses.map((expense) => (
                   <TableRow key={expense.id}>
+                    <TableCell>{expense.date}</TableCell>
                     <TableCell>{expense.description}</TableCell>
                     <TableCell>{CATEGORY_NAMES[expense.category]}</TableCell>
                     <TableCell>{expense.amount.toLocaleString('tr-TR')}₺</TableCell>
@@ -173,7 +192,7 @@ const BudgetManager = ({ totalBudget, onBudgetChange }: BudgetManagerProps) => {
                 ))}
                 {expenses.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center text-gray-500">
+                    <TableCell colSpan={5} className="text-center text-gray-500">
                       Henüz harcama eklenmemiş
                     </TableCell>
                   </TableRow>

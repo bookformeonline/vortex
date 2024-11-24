@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { MapPin, Save } from "lucide-react";
+import { MapPin, Save, Search } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -14,10 +14,14 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import BudgetManager from "@/components/planner/BudgetManager";
 import TravelSearch from "@/components/planner/TravelSearch";
+import { DateRange } from "react-day-picker";
 
 const Planner = () => {
   const { toast } = useToast();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: new Date(),
+  });
   const [destination, setDestination] = useState("");
   const [totalBudget, setTotalBudget] = useState<number>(0);
   const [transportation, setTransportation] = useState("");
@@ -26,7 +30,7 @@ const Planner = () => {
   const [packingList, setPackingList] = useState("");
 
   const handleSaveToGoogleDrive = async () => {
-    if (!destination || !selectedDate) {
+    if (!destination || !date) {
       toast({
         title: "Hata",
         description: "Lütfen destinasyon ve tarih seçiniz.",
@@ -48,6 +52,30 @@ const Planner = () => {
     });
   };
 
+  const handleDestinationSearch = () => {
+    // Affiliate links will be added here later
+    toast({
+      title: "Destinasyon kaydedildi",
+      description: `${destination} seyahat planınıza eklendi.`
+    });
+  };
+
+  const handleActivitySearch = () => {
+    // Affiliate links will be added here later
+    toast({
+      title: "Aktivite aranıyor",
+      description: `${activities} için aktiviteler aranıyor.`
+    });
+  };
+
+  const handlePackingListSearch = () => {
+    // Affiliate links will be added here later
+    toast({
+      title: "Eşya listesi önerileri",
+      description: "Seyahatiniz için önerilen eşyalar aranıyor."
+    });
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8 animate-fade-up">Seyahat Planla</h1>
@@ -56,23 +84,29 @@ const Planner = () => {
         <div className="space-y-6 animate-fade-up [animation-delay:200ms]">
           <div>
             <label className="block text-sm font-medium mb-2">Nereye?</label>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-              <Input
-                placeholder="Destinasyon giriniz..."
-                className="pl-10"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-              />
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <Input
+                  placeholder="Ülke veya şehir giriniz..."
+                  className="pl-10"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                />
+              </div>
+              <Button onClick={handleDestinationSearch}>
+                <Search className="h-4 w-4" />
+              </Button>
             </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-2">Ne Zaman?</label>
             <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
+              mode="range"
+              selected={date}
+              onSelect={setDate}
+              numberOfMonths={2}
               className="rounded-md border"
             />
           </div>
@@ -104,20 +138,30 @@ const Planner = () => {
 
           <div>
             <label className="block text-sm font-medium mb-2">Planladığınız Aktiviteler</label>
-            <Textarea
-              placeholder="Yapmak istediğiniz aktiviteleri yazın..."
-              value={activities}
-              onChange={(e) => setActivities(e.target.value)}
-            />
+            <div className="flex gap-2">
+              <Input
+                placeholder="Aktivite arayın..."
+                value={activities}
+                onChange={(e) => setActivities(e.target.value)}
+              />
+              <Button onClick={handleActivitySearch}>
+                <Search className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-2">Eşya Listesi</label>
-            <Textarea
-              placeholder="Yanınıza almanız gereken eşyaları yazın..."
-              value={packingList}
-              onChange={(e) => setPackingList(e.target.value)}
-            />
+            <div className="flex gap-2">
+              <Input
+                placeholder="Eşya listesi önerileri için arayın..."
+                value={packingList}
+                onChange={(e) => setPackingList(e.target.value)}
+              />
+              <Button onClick={handlePackingListSearch}>
+                <Search className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
