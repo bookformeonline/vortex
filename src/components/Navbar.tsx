@@ -19,7 +19,7 @@ export const Navbar = () => {
               <Link to="/tickets">
                 <Button variant="ghost" className="w-full justify-start">
                   <Plane className="mr-2 h-4 w-4" />
-                  Flight Tickets
+                  Find Tickets
                 </Button>
               </Link>
               <Link to="/activities">

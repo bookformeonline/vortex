@@ -1,20 +1,24 @@
 import TravelSearch from "@/components/planner/TravelSearch";
-import BudgetManager from "@/components/planner/BudgetManager";
+import ExpenseInput from "@/components/planner/ExpenseInput";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Tickets() {
-  const [totalBudget, setTotalBudget] = useState<number>(0);
+  const { toast } = useToast();
 
-  const handleAddToBudget = (description: string, amount: number, category: string) => {
-    // This will be handled by the BudgetManager component
-    setTotalBudget(prev => prev + amount);
+  const handleAddExpense = (description: string, amount: number, category: string, date: string) => {
+    // This will be handled by the BudgetManager component through global state management
+    toast({
+      title: "Bütçeye eklendi",
+      description: `${description} (${amount}₺) bütçeye eklendi.`
+    });
   };
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold">BookForMe Flight Tickets</h1>
-      <TravelSearch onAddToBudget={handleAddToBudget} />
-      <BudgetManager totalBudget={totalBudget} onBudgetChange={setTotalBudget} />
+      <h1 className="text-3xl font-bold">Find Tickets</h1>
+      <TravelSearch onAddToBudget={handleAddExpense} />
+      <ExpenseInput onAddExpense={handleAddExpense} />
     </div>
   );
 }
