@@ -7,46 +7,50 @@ export const Navbar = () => {
   const { user, logout } = useAuth();
 
   return (
-    <nav className="border-b">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="text-xl font-bold text-primary">
+    <nav className="border-r h-screen w-64 fixed left-0 top-0">
+      <div className="flex flex-col h-full">
+        <Link to="/" className="p-4 text-xl font-bold text-primary border-b">
           BookForMe.Online
         </Link>
         
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col p-4 space-y-2">
           {user ? (
             <>
               <Link to="/tickets">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" className="w-full justify-start">
                   <Plane className="mr-2 h-4 w-4" />
                   Flight Tickets
                 </Button>
               </Link>
               <Link to="/activities">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" className="w-full justify-start">
                   <Calendar className="mr-2 h-4 w-4" />
                   Tours & Activities
                 </Button>
               </Link>
               <Link to="/essentials">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" className="w-full justify-start">
                   <Package className="mr-2 h-4 w-4" />
                   Essentials
                 </Button>
               </Link>
               <Link to="/budget">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" className="w-full justify-start">
                   <CreditCard className="mr-2 h-4 w-4" />
                   Budget
                 </Button>
               </Link>
               <Link to="/account">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" className="w-full justify-start">
                   <User className="mr-2 h-4 w-4" />
                   Account
                 </Button>
               </Link>
-              <Button variant="ghost" size="sm" onClick={() => logout()}>
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start text-red-500 hover:text-red-600" 
+                onClick={() => logout()}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
               </Button>
@@ -54,10 +58,10 @@ export const Navbar = () => {
           ) : (
             <>
               <Link to="/login">
-                <Button variant="ghost" size="sm">Login</Button>
+                <Button variant="ghost" className="w-full justify-start">Login</Button>
               </Link>
               <Link to="/register">
-                <Button size="sm">Register</Button>
+                <Button className="w-full justify-start">Register</Button>
               </Link>
             </>
           )}

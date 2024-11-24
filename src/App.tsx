@@ -21,15 +21,19 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/budget" element={<Budget />} />
-            <Route path="/activities" element={<Activities />} />
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/essentials" element={<Essentials />} />
-          </Routes>
+          <div className="flex">
+            <Navbar />
+            <main className="flex-1 ml-64 p-8">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/budget" element={<Budget />} />
+                <Route path="/activities" element={<Activities />} />
+                <Route path="/tickets" element={<Tickets />} />
+                <Route path="/essentials" element={<Essentials />} />
+              </Routes>
+            </main>
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
