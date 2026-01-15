@@ -22,7 +22,7 @@ interface SearchResult {
 }
 
 interface TravelSearchProps {
-  onAddToBudget: (description: string, amount: number, category: string) => void;
+  onAddToBudget: (description: string, amount: number, category: string, date: string) => void;
 }
 
 const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
@@ -109,7 +109,8 @@ const TravelSearch = ({ onAddToBudget }: TravelSearchProps) => {
 
   const addToBudget = (result: SearchResult) => {
     const category = result.type === "flight" ? "transportation" : "activities";
-    onAddToBudget(result.title, result.price, category);
+    const currentDate = new Date().toISOString().split('T')[0];
+    onAddToBudget(result.title, result.price, category, currentDate);
     toast({
       title: "Bütçeye eklendi",
       description: `${result.title} bütçeye eklendi.`

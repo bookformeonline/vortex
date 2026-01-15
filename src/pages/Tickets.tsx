@@ -6,7 +6,6 @@ export default function Tickets() {
   const { toast } = useToast();
 
   const handleAddExpense = (description: string, amount: number, category: string, date: string) => {
-    // This will be handled by the BudgetManager component through global state management
     toast({
       title: "Bütçeye eklendi",
       description: `${description} (${amount}₺) bütçeye eklendi.`
